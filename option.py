@@ -13,7 +13,7 @@ def parse_args():
 
     # dataset
     parser.add_argument("--data_dir", type=str, default="./datasets/")
-    parser.add_argument("--data_name", type=str, default="celeb")
+    parser.add_argument("--data_name", type=str, default="celeba_hq")
 
     # training setting
     parser.add_argument("--lr", type=float, default=0.0003)
