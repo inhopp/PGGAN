@@ -16,6 +16,9 @@ def parse_args():
     parser.add_argument("--data_name", type=str, default="celeba_hq")
 
     # training setting
+    parser.add_argument("--start", type=float, default=0.0003)
+    parser.add_argument("--z_dim", type=int, default=256)
+    parser.add_argument("--in_channels", type=int, default=256)
     parser.add_argument("--lr", type=float, default=0.0003)
     parser.add_argument("--gp_lambda", type=float, default=10)
     parser.add_argument("--b1", type=float, default=0.5,
@@ -24,7 +27,8 @@ def parse_args():
                         help="adam: decay of first order momentum of gradient")
     parser.add_argument("--n_epoch", type=int, default=30)
     parser.add_argument("--num_workers", type=int, default=4)
-    parser.add_argument("--batch_size", type=int, default=16)
+    parser.add_argument("--batch_size", type=list,
+                        default=[32, 32, 32, 16, 16, 16, 16, 8, 4])
 
     # misc
     parser.add_argument("--ckpt_root", type=str, default="./FT_model")
