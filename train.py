@@ -56,7 +56,7 @@ class Solver():
 
         for num_epochs in progressive_epochs[step:]:
             alpha = 1e-5
-            loader, dataset = generate_loader(4 * 2 ** step)
+            loader, dataset = generate_loader(opt, 4 * 2 ** step)
 
             for epoch in range(num_epochs):
                 loop = tqdm(loader)
@@ -125,7 +125,7 @@ class Solver():
 def main():
     opt = get_option()
     torch.manual_seed(opt.seed)
-    solver = Solver()
+    solver = Solver(opt)
     solver.fit()
 
 

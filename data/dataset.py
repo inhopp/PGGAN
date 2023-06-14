@@ -9,14 +9,13 @@ class Dataset(data.Dataset):
         self.data_name = opt.data_name
         self.transform = transform
 
-        self.list_files = os.listdir(self.data_dir, self.data_name)
+        self.list_files = os.listdir(self.data_dir + self.data_name)
 
     def __getitem__(self, index):
         img_file = self.list_files[index]
-        img_path = Image.open(os.path.join(
-            self.data_dir, self.data_name, img_file))
 
-        image = Image.open(img_path)
+        image = Image.open(os.path.join(
+            self.data_dir, self.data_name, img_file))
         image = image.convert("RGB")
 
         if self.transform is not None:
