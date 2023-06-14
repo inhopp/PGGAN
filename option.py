@@ -16,9 +16,9 @@ def parse_args():
     parser.add_argument("--data_name", type=str, default="celeba_hq")
 
     # training setting
-    parser.add_argument("--start", type=float, default=0.0003)
-    parser.add_argument("--z_dim", type=int, default=256)
-    parser.add_argument("--in_channels", type=int, default=256)
+    parser.add_argument("--start_img_size", type=int, default=128)
+    parser.add_argument("--z_dim", type=int, default=512)
+    parser.add_argument("--in_channels", type=int, default=512)
     parser.add_argument("--lr", type=float, default=0.0003)
     parser.add_argument("--gp_lambda", type=float, default=10)
     parser.add_argument("--b1", type=float, default=0.5,

@@ -59,7 +59,7 @@ class ConvBlock(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self, z_dim, in_channels):
+    def __init__(self, z_dim, in_channels, img_channels=3):
         super(Generator, self).__init__()
 
         # 1x1 -> 4x4
@@ -74,7 +74,7 @@ class Generator(nn.Module):
         )
 
         self.initial_rgb = WSConv2d(
-            in_channels, 3, kernel_size=1, stride=1, padding=0)
+            in_channels, img_channels, kernel_size=1, stride=1, padding=0)
 
         self.prog_blocks, self.rgb_layers = nn.ModuleList(
             []), nn.ModuleList([self.initial_rgb])
@@ -84,7 +84,7 @@ class Generator(nn.Module):
             conv_out_c = int(in_channels * factors[i+1])
             self.prog_blocks.append(ConvBlock(conv_in_c, conv_out_c))
             self.rgb_layers.append(
-                WSConv2d(conv_out_c, 3, kernel_size=1, stride=1, padding=0))
+                WSConv2d(conv_out_c, img_channels, kernel_size=1, stride=1, padding=0))
 
     def fade_in(self, alpha, upscaled, generated):
         return torch.tanh(alpha * generated + (1 - alpha) * upscaled)
@@ -106,7 +106,7 @@ class Generator(nn.Module):
 
 
 class Discriminator(nn.Module):
-    def __init__(self, z_dim, in_channels):
+    def __init__(self, in_channels, img_channels):
         super(Discriminator, self).__init__()
         self.prog_blocks, self.rgb_layers = nn.ModuleList(
             []), nn.ModuleList([])
@@ -118,11 +118,11 @@ class Discriminator(nn.Module):
             self.prog_blocks.append(
                 ConvBlock(conv_in, conv_out, use_pixelnorm=False))
             self.rgb_layers.append(
-                WSConv2d(3, conv_in, kernel_size=1, stride=1, padding=0))
+                WSConv2d(img_channels, conv_in, kernel_size=1, stride=1, padding=0))
 
         # inverse version of genertor's initial_rgb
         self.initial_rgb = WSConv2d(
-            3, in_channels, kernel_size=1, stride=1, padding=0)
+            img_channels, in_channels, kernel_size=1, stride=1, padding=0)
         self.rgb_layers.append(self.initial_rgb)
 
         # downsampling

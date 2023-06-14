@@ -28,4 +28,4 @@ def generate_loader(opt, image_size):
         "drop_last": True,
     }
 
-    return torch.utils.data.DataLoader(dataset, **kwargs)
+    return torch.utils.data.DataLoader(dataset, **kwargs), dataset
