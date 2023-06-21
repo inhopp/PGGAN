@@ -52,7 +52,7 @@ class Solver():
         print("start training")
 
         step = int(log2(opt.start_img_size / 4))
-        progressive_epochs = [30] * len(opt.batch_size)
+        progressive_epochs = [opt.n_epoch] * len(opt.batch_size)
 
         for num_epochs in progressive_epochs[step:]:
             alpha = 1e-5
@@ -65,7 +65,7 @@ class Solver():
                     real = img.to(self.dev)
                     cur_batch_size = real.shape[0]
 
-                    noise = torch.rand(
+                    noise = torch.randn(
                         cur_batch_size, opt.z_dim, 1, 1).to(self.dev)
                     fake = self.generator(noise, alpha, step)
 
